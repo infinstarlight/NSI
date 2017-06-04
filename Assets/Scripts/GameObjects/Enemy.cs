@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 	public int startHealth = 5;
 	public int currentHealth;
     private Transform player;
+    public AudioSource DeathSound;
 
     private IEnumerator coroutine;
 
@@ -15,12 +16,15 @@ public class Enemy : MonoBehaviour
 	{
 		currentHealth = startHealth;
     }
+
+    // Remember to disable "Play On Awake" on Audio Source component
     void OnTriggerEnter(Collider otherObj)
     {
         if (otherObj.tag == "PlayerProjectile")
         {
             Debug.Log("Ouch!");
             TakeDamage(currentHealth);
+            
         }
         //if (otherObj.gameObject.tag == "Player")
         //{
@@ -32,11 +36,13 @@ public class Enemy : MonoBehaviour
 		currentHealth--;
 		if (currentHealth <= 0)
 			Death ();
-	}
+        //DeathSound.Play();
+    }
 
 	void Death ()
 	{
 		Destroy (gameObject);
 		Debug.Log ("Heeeeeeeeeeeeeeyyyyyyyyyyyyyy! That hurt!");
-	}
+        DeathSound.Play();
+    }
 }
